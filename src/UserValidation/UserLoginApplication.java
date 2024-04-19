@@ -1,8 +1,6 @@
 package UserValidation;
 
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 public class UserLoginApplication {
 	private static final int MAX_LOGIN_ATTEMPTS = 5;
