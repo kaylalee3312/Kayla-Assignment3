@@ -5,36 +5,42 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 public class UserLoginApplication {
-	private UserService userService; 
-	
-	public UserLoginApplication(String filename) {
-		userService = new UserService(filename);
-	}
-	public void loginUser() {
-		Scanner scanner = new Scanner(System.in);
-		
-		System.out.println("Enter username: ");
-		String username = scanner.nextLine(); //Read user input for username
-		
-		System.out.println("Enter password: ");
-		String password = scanner.nextLine(); // Read user input for password
-		
-		boolean isAuthenticated = userService.authenticateUser(username, password);
-		if(isAuthenticated) {
-			System.out.println("Login successful!");
-		} else {
-			System.out.println("An error occurred: " + e.getMessage());
-		}
-			User user = userService.authenticateUser(username, password);
-		if (user != null) {
-			System.out.println("Login successful: Welcome " + user.getName());
-		} else {
-			System.out.println("Login failed: Incorrect username or password.");
-		}
-		scanner.close();
-		}
 	public static void main(String[] args) {
-		UserLoginApplication app = new UserLoginApplication("data.txt");
-		app.loginUser();
-	}
+	UserService userService = new UserService();
+    Scanner scanner = new Scanner(System.in);
+
+    int maxAttempts = 5;
+    int attempts = 0;
+
+    while (attempts < maxAttempts) {
+        System.out.print("Enter your email: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter your password: ");
+        String password = scanner.nextLine();
+
+        if (userService.authenticate(username, password)) {
+            System.out.println("Welcome: " + findNameByUsername(userService, username)); 
+            break; 
+        } else {
+            attempts++;
+            System.out.println("Invalid login, please try again.");
+        }
+
+        if (attempts >= maxAttempts) {
+            System.out.println("Too many failed login attempts, you are now locked out.");
+        }
+    }
+
+    scanner.close();
+}
+
+// Helper function to find the user's name based on username
+private static String findNameByUsername(UserService userService, String username) {
+    for (User user : userService.users) {
+        if (user.getUsername().equalsIgnoreCase(username)) {
+            return user.getName();
+        }
+    }
+    return null; 
+}
 }
