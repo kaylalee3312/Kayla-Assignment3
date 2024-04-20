@@ -1,34 +1,40 @@
 package UserValidation;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
 
 public class UserLoginApplication {
-	private static final int MAX_LOGIN_ATTEMPTS = 5;
-
-	public static void main(String[] args) {
+	private UserService userService; 
+	
+	public UserLoginApplication(String filename) {
+		userService = new UserService(filename);
+	}
+	public void loginUser() {
 		Scanner scanner = new Scanner(System.in);
-		UserService userService = new UserService();
-		int attempts = 0;
-
-		while (attempts < MAX_LOGIN_ATTEMPTS) {
-			System.out.println("Enter your email: ");
-			String username = scanner.nextLine().trim().toLowerCase();
-
-			System.out.println("Enter your password: ");
-			String password = scanner.nextLine();
-
-			User loggedInUser = userService.validateUser(username, password);
-			if (loggedInUser != null) {
-				System.out.println("Welcome, " + loggedInUser.getName());
-				break;
-			} else {
-				System.out.println("Invalid login, please try again.");
-				attempts++;
-			}
-			if (attempts == MAX_LOGIN_ATTEMPTS) {
-				System.out.println("Too many failed login attempts, you are now locked out.");
-			}
-			scanner.close();
+		
+		System.out.println("Enter username: ");
+		String username = scanner.nextLine(); //Read user input for username
+		
+		System.out.println("Enter password: ");
+		String password = scanner.nextLine(); // Read user input for password
+		
+		boolean isAuthenticated = userService.authenticateUser(username, password);
+		if(isAuthenticated) {
+			System.out.println("Login successful!");
+		} else {
+			System.out.println("An error occurred: " + e.getMessage());
 		}
+			User user = userService.authenticateUser(username, password);
+		if (user != null) {
+			System.out.println("Login successful: Welcome " + user.getName());
+		} else {
+			System.out.println("Login failed: Incorrect username or password.");
+		}
+		scanner.close();
+		}
+	public static void main(String[] args) {
+		UserLoginApplication app = new UserLoginApplication("data.txt");
+		app.loginUser();
 	}
 }
