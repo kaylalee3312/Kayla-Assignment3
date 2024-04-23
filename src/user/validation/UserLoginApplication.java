@@ -1,4 +1,4 @@
-package UserValidation;
+package user.validation;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

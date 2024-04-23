@@ -1,4 +1,4 @@
-package UserValidation;
+package user.validation;
 
 public class User {
 	String username;
