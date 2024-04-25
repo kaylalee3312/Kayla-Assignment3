@@ -8,7 +8,7 @@ public class UserLoginApplication {
 	public static void main(String[] args) {
 	UserService userService = new UserService();
     Scanner scanner = new Scanner(System.in);
-
+ 
     int maxAttempts = 5;
     int attempts = 0;
 
